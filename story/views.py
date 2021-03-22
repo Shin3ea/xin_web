@@ -157,8 +157,8 @@ def HandleGetStoriesRequest(request):
     # response['Content-Type']='application/json'
     # response.status_code=200
     # response.status_phrase="OK"
-    json_response=serializers.serialize("json",{"stories":all_story})
-    return HttpResponse(json_response,content_type="application/json",status=200)
+    # json_response=serializers.serialize("json",{"stories":all_story})
+    return HttpResponse(json.dumps({"stories":all_story}),content_type="application/json",status=200)
   else:
     return HttpResponse(Login_Required,content_type=text_content_type,status=403)
 
