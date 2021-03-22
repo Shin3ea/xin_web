@@ -110,6 +110,8 @@ def HandleGetStoriesRequest(request):
     cat=request.GET.get('story_cat')
     region=request.GET.get('story_region')
     date=request.GET.get('story_date')
+    if cat is None or region is None or date is None:
+      return HttpResponse("Something is None",content_type=text_content_type,status=403)
 
     if cat=='*' and region=='*' and date=='*':
       obj_set=Story.objects.all()
