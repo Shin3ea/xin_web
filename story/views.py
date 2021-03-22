@@ -89,7 +89,8 @@ def HandlePostStoryRequest(request):
     story_obj=Story.objects.create(Story_Headline=headline,
                                    Story_Category=category,
                                    Story_Region=region,
-                                   Story_Details=details)
+                                   Story_Details=details,
+                                   )
     if story_obj is None:
       return HttpResponse(Post_Failure,content_type=content_type,status=403)
     return HttpResponse(Post_Success,content_type=content_type,status=201)

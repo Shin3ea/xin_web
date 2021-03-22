@@ -1,5 +1,4 @@
 from django.db import models
-from .utils import auto_generator
 from django.contrib.auth.models import User
 # Create your models here.
 class Author(models.Model):
@@ -22,7 +21,6 @@ class Story(models.Model):
         ('eu','European_news'),
         ('w','world_news'),
     ]
-    Reference_number=models.CharField(max_length=10,unique=True,default=auto_generator())
     Story_Headline=models.CharField(max_length=64)
     Story_Category=models.CharField(max_length=6,choices=category_choices,default='trivia')
     Story_Region=models.CharField(max_length=2,choices=region_choices,default='uk')
