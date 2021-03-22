@@ -107,15 +107,16 @@ def HandleGetStoriesRequest(request):
   text_content_type="text/plain"
   all_story=[]
   if request.user.is_authenticated:
-    cat=request.GET.get("story_cat")
-    region=request.GET.get("story_region")
-    date=request.GET.get("story_date")
-    if '*' in request.GET:
-      return HttpResponse("Get",content_type=text_content_type,status=403)
-    if cat is None or region is None or date is None:
-      SomethingNone=("cat={cat},region={region},date={date},request={request}").format(
-                                        cat=cat,region=region,date=date,request=request.body)
-      return HttpResponse(SomethingNone,content_type=text_content_type,status=403)
+    json_data=json.loads(request.body)
+    cat=json_data['story_cat']
+    region=json_data['story_region']
+    date=json_data['story_date']
+    # if '*' in request.GET:
+    #   return HttpResponse("Get",content_type=text_content_type,status=403)
+    # if cat is None or region is None or date is None:
+    #   SomethingNone=("cat={cat},region={region},date={date},request={request}").format(
+    #                                     cat=cat,region=region,date=date,request=request.body)
+    #   return HttpResponse(SomethingNone,content_type=text_content_type,status=403)
 
     if cat=='*' and region=='*' and date=='*':
       obj_set=Story.objects.all()
