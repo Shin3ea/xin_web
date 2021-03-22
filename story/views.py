@@ -89,8 +89,7 @@ def HandlePostStoryRequest(request):
     story_obj=Story.objects.create(Story_Headline=headline,
                                    Story_Category=category,
                                    Story_Region=region,
-                                   Story_Details=details,
-                                   )
+                                   Story_Details=details)
     if story_obj is None:
       return HttpResponse(Post_Failure,content_type=content_type,status=403)
     return HttpResponse(Post_Success,content_type=content_type,status=201)
@@ -100,12 +99,14 @@ def HandlePostStoryRequest(request):
 @csrf_exempt
 def HandleGetStoriesRequest(request):
   Login_Required="Logging First"
+  text_content_type="text/plain"
   author_obj=User.objects.all()
   all_story=[]
   if request.user.is_authenticated:
     story_cat=request.POST.get('story_cat')
     story_region=request.POST.get('story_region')
     story_date=request.POST.get('story_date')
+
     obj_set=Story.objects.all()
     if story_cat!='*':
       obj_set=obj_set.objects.filter(Story_Category=story_cat)
