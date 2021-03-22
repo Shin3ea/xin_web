@@ -153,7 +153,8 @@ def HandleGetStoriesRequest(request):
                   "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
                   "author":obj.Authors.Username,"story_details":obj.Story_Details}
       all_story.append(story_dict)
-      json_response=serializers.serialize("json",all_story)
+      # json_response=serializers.serialize("json",all_story)
+      json_response=json.dumps(all_story)
     response=JsonResponse({"stories":json_response.data},safe=True)
     response['Content-Type']='application/json'
     response.status_code=200
