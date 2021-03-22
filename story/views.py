@@ -105,17 +105,34 @@ def HandleGetStoriesRequest(request):
   text_content_type="text/plain"
   all_story=[]
   if request.user.is_authenticated:
-    story_cat=request.GET.get('story_cat')
-    story_region=request.GET.get('story_region')
-    story_date=request.GET.get('story_date')
+    cat=request.GET.get('story_cat')
+    region=request.GET.get('story_region')
+    date=request.GET.get('story_date')
 
-    obj_set=Story.objects.all()
-    if story_cat!='*':
-      obj_set=obj_set.objects.filter(Story_Category=story_cat)
-    if story_region!='*':
-      obj_set=obj_set.objects.filter(Story_Region=story_region)
-    if story_date!='*':
-      obj_set=obj_set.objects.filter(Post_Date__gte=story_date)
+    if cat=='*' and region=='*' and date='*':
+      obj_set=Story.objects.all()
+    if cat!='*' and region=='*' and date=='*':
+      obj_set=Story.objects.filter(Story_Category=cat)
+    if cat!='*' and region!='*' and date=='*':
+      obj_set=Story.objects.filter(Story_Category=cat,Story_Region=region)
+    if cat!='*' and region!='*' and date!='*':
+      obj_set=Story.objects.filter(Story_Category=cat,Story_Region=region,Post_Date__gte=date)
+    if cat=='*' and region!='*' and date=='*':
+      obj_set=Story.objects.filter(Story_Region=region)
+    if cat=='*' and region!='*' and date!='*':
+      obj_set=Story.objects.filter(Story_Region=region,Post_Date__gte=date)
+    if cat!='*' and region=='*' and date!='*':
+      obj_set=Story.objects.filter(Story_Category=cat,Post_Date__gte=date)
+    if cat=='*' and region=='*' and date!='*':
+      obj_set=Story.objects.filter(Post_Date__gte=date)
+    print(obj_set)
+    # obj_set=Story.objects.all()
+    # if story_cat!='*':
+      # obj_set=obj_set.objects.filter(Story_Category=story_cat)
+    # if story_region!='*':
+      # obj_set=obj_set.objects.filter(Story_Region=story_region)
+    # if story_date!='*':
+      # obj_set=obj_set.objects.filter(Post_Date__gte=story_date)
     if len(obj_set)==0:
       NoStory="No Story Found"
       return HttpResponseBadRequest(NoStory,text_content_type,status=404)
