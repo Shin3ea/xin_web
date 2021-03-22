@@ -44,10 +44,10 @@ def HandleLogoutRequest(request):
   if request.method!='POST':
     badResponse = "{method} Not Allowed".format(method=request.method)
     return HttpResponseBadRequest(badResponse,content_type="text/plain",status=405)
-  if(request.user.is_authenticated==True):
-    logout(request)
-    return HttpResponse("Logout Failed",content_type="text/plain",status=200)
+  if(request.user.is_authenticated==False):
+    return HttpResponse("Logout Failed",content_type="text/plain",status=503)
   else:
+    logout(request)
     return HttpResponse("Bye-bye Butterfly!",content_type="text/plain",status=200)
 
 @csrf_exempt
