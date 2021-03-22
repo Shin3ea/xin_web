@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 import json
 from django.http import JsonResponse
+from django.core import serializers
 
 
 # @require_http_methods(["POST"])
@@ -152,11 +153,12 @@ def HandleGetStoriesRequest(request):
                   "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
                   "author":obj.Authors.Username,"story_details":obj.Story_Details}
       all_story.append(story_dict)
-    response=JsonResponse({"stories":all_story})
-    response['Content-Type']='application/json'
-    response.status_code=200
-    response.status_phrase="OK"
-    return response
+    # response=JsonResponse({"stories":all_story})
+    # response['Content-Type']='application/json'
+    # response.status_code=200
+    # response.status_phrase="OK"
+    json_response=serializers.serialize("json",{"stories":all_story})
+    return HttpResponse("OK",content_type="application/json",status=200)
   else:
     return HttpResponse(Login_Required,content_type=text_content_type,status=403)
 
