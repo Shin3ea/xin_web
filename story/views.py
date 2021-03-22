@@ -150,7 +150,7 @@ def HandleGetStoriesRequest(request):
       datelist=obj.Post_Date.isoformat().split('-')
       date=datelist[2]+'/'+datelist[1]+'/'+datelist[0]
       if datelist:
-        SomethingNone=("{username}").format(username=datelist[2])
+        SomethingNone=("{username}").format(username=len(obj.Post_Date))
       return HttpResponse(SomethingNone,content_type=text_content_type,status=403)
       # user_json=serializers.serialize("json",obj.Authors.Username)
       story_dict={"key":obj.id,"headline":obj.Story_Headline,
