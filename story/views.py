@@ -45,7 +45,7 @@ def HandleLogoutRequest(request):
     badResponse = "{method} Not Allowed".format(method=request.method)
     return HttpResponseBadRequest(badResponse,content_type="text/plain",status=405)
   if(request.user.is_authenticated==False):
-    return HttpResponse("Logout Failed",content_type="text/plain",status=503)
+    return HttpResponse("Logout Failed / Loggin First",content_type="text/plain",status=503)
   else:
     logout(request)
     return HttpResponse("Bye-bye Butterfly!",content_type="text/plain",status=200)
@@ -60,7 +60,7 @@ def HandlePostStoryRequest(request):
   Login_Required="Logging First"
   content_type="text/plain"
   author_obj=User.objects.all()
-  if request.user.is_authenticated:
+  if request.user.is_authenticated==True:
     received_json_data=json.loads(request.body.decode('utf8'))
     # author_obj=Author.objects.get(Username=request.user.id)
     author_obj=request.user.author
