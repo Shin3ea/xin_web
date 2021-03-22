@@ -152,7 +152,7 @@ def HandleGetStoriesRequest(request):
       # if obj.Authors.Username:
       #   SomethingNone=("{username}").format(username=obj.Authors.Username)
       # return HttpResponse(SomethingNone,content_type=text_content_type,status=403)
-      user_json=serializers.serialize("json",obj.Authors.Username)
+      # user_json=serializers.serialize("json",obj.Authors.Username)
       story_dict={"key":obj.id,"headline":obj.Story_Headline,
                   "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
                   "author":str(obj.Authors.Username),"story_details":obj.Story_Details}
