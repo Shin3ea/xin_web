@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 import json
+from django.http import JsonResponse
 
 # @require_http_methods(["POST"])
 @csrf_exempt
