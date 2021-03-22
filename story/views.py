@@ -110,7 +110,6 @@ def HandleGetStoriesRequest(request):
   if request.method!='GET':
     badResponse = "{method} Not Allowed".format(method=request.method)
     return HttpResponseBadRequest(badResponse,content_type="text/plain",status=405)
-  Login_Required="Logging First"
   text_content_type="text/plain"
   all_story=[]
   json_data=json.loads(request.body)
@@ -149,7 +148,7 @@ def HandleGetStoriesRequest(request):
     date=datelist[2]+'/'+datelist[1]+'/'+datelist[0]
     story_dict={"key":obj.id,"headline":obj.Story_Headline,
                 "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
-                "author":str(obj.Authors.Username),"story_date":str(obj.Post_Date)[:10],
+                "author":str(obj.Authors.Name),"story_date":str(obj.Post_Date)[:10],
                 "story_details":obj.Story_Details}
     all_story.append(story_dict)
     # json_response=serializers.serialize("json",all_story)
