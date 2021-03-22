@@ -113,10 +113,10 @@ def HandleGetStoriesRequest(request):
   Login_Required="Logging First"
   text_content_type="text/plain"
   all_story=[]
-    json_data=json.loads(request.body)
-    cat=json_data['story_cat']
-    region=json_data['story_region']
-    date=json_data['story_date']
+  json_data=json.loads(request.body)
+  cat=json_data['story_cat']
+  region=json_data['story_region']
+  date=json_data['story_date']
   if cat=='*' and region=='*' and date=='*':
     obj_set=Story.objects.all()
   if cat!='*' and region=='*' and date=='*':
