@@ -90,6 +90,9 @@ def HandleGetStoriesRequest(request):
   cat=json_data['story_cat']
   region=json_data['story_region']
   date=json_data['story_date']
+  if date!='*':
+    valid_date=date.split('/')
+    date=valid_date[2]+'-'+valid_date[1]+'-'+valid_date[0]
   if cat=='*' and region=='*' and date=='*':
     obj_set=Story.objects.all()
   if cat!='*' and region=='*' and date=='*':
