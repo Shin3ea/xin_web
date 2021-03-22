@@ -109,7 +109,7 @@ def HandleGetStoriesRequest(request):
     region=request.GET.get('story_region')
     date=request.GET.get('story_date')
 
-    if cat=='*' and region=='*' and date='*':
+    if cat=='*' and region=='*' and date=='*':
       obj_set=Story.objects.all()
     if cat!='*' and region=='*' and date=='*':
       obj_set=Story.objects.filter(Story_Category=cat)
