@@ -103,12 +103,11 @@ def HandlePostStoryRequest(request):
 def HandleGetStoriesRequest(request):
   Login_Required="Logging First"
   text_content_type="text/plain"
-  author_obj=User.objects.all()
   all_story=[]
   if request.user.is_authenticated:
-    story_cat=request.POST.get('story_cat')
-    story_region=request.POST.get('story_region')
-    story_date=request.POST.get('story_date')
+    story_cat=request.GET.get('story_cat')
+    story_region=request.GET.get('story_region')
+    story_date=request.GET.get('story_date')
 
     obj_set=Story.objects.all()
     if story_cat!='*':
