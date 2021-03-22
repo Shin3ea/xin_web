@@ -78,6 +78,9 @@ def HandleLogoutRequest(request):
 
 @csrf_exempt
 def HandlePostStoryRequest(request):
+  if request.method!='POST':
+    badResponse = "{method} Not Allowed".format(method=request.method)
+    return HttpResponseBadRequest(badResponse,content_type="text/plain",status=405)
   Post_Success="Succeed to Post Story by '{username}'".format(username=request.user.username)
   Post_Failure="Failed to Post Story"
   Login_Required="Logging First"
@@ -104,76 +107,64 @@ def HandlePostStoryRequest(request):
 
 @csrf_exempt
 def HandleGetStoriesRequest(request):
+  if request.method!='GET':
+    badResponse = "{method} Not Allowed".format(method=request.method)
+    return HttpResponseBadRequest(badResponse,content_type="text/plain",status=405)
   Login_Required="Logging First"
   text_content_type="text/plain"
   all_story=[]
-  if request.user.is_authenticated:
     json_data=json.loads(request.body)
     cat=json_data['story_cat']
     region=json_data['story_region']
     date=json_data['story_date']
-    # if '*' in request.GET:
-    #   return HttpResponse("Get",content_type=text_content_type,status=403)
-    # if cat is None or region is None or date is None:
-    #   SomethingNone=("cat={cat},region={region},date={date},request={request}").format(
-    #                                     cat=cat,region=region,date=date,request=request.body)
-    #   return HttpResponse(SomethingNone,content_type=text_content_type,status=403)
-
-    if cat=='*' and region=='*' and date=='*':
-      obj_set=Story.objects.all()
-    if cat!='*' and region=='*' and date=='*':
-      obj_set=Story.objects.filter(Story_Category=cat)
-    if cat!='*' and region!='*' and date=='*':
-      obj_set=Story.objects.filter(Story_Category=cat,Story_Region=region)
-    if cat!='*' and region!='*' and date!='*':
-      obj_set=Story.objects.filter(Story_Category=cat,Story_Region=region,Post_Date__gte=date)
-    if cat=='*' and region!='*' and date=='*':
-      obj_set=Story.objects.filter(Story_Region=region)
-    if cat=='*' and region!='*' and date!='*':
-      obj_set=Story.objects.filter(Story_Region=region,Post_Date__gte=date)
-    if cat!='*' and region=='*' and date!='*':
-      obj_set=Story.objects.filter(Story_Category=cat,Post_Date__gte=date)
-    if cat=='*' and region=='*' and date!='*':
-      obj_set=Story.objects.filter(Post_Date__gte=date)
-    print(obj_set)
-    # obj_set=Story.objects.all()
-    # if story_cat!='*':
-      # obj_set=obj_set.objects.filter(Story_Category=story_cat)
-    # if story_region!='*':
-      # obj_set=obj_set.objects.filter(Story_Region=story_region)
-    # if story_date!='*':
-      # obj_set=obj_set.objects.filter(Post_Date__gte=story_date)
-    if len(obj_set)==0:
-      NoStory="No Story Found"
-      return HttpResponseBadRequest(NoStory,text_content_type,status=404)
-    for obj in obj_set:
-      datelist=obj.Post_Date.isoformat().split('-')
-      date=datelist[2]+'/'+datelist[1]+'/'+datelist[0]
-      # if datelist:
-      #   SomethingNone=("{username}").format(username=len(str(obj.Post_Date)))
-      # return HttpResponse(SomethingNone,content_type=text_constent_type,status=403)
-      # user_json=serializers.serialize("json",obj.Authors.Username)
-      story_dict={"key":obj.id,"headline":obj.Story_Headline,
-                  "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
-                  "author":str(obj.Authors.Username),"story_date":str(obj.Post_Date)[:10],
-                  "story_details":obj.Story_Details}
-      # story_dict.update(user_json)
-      all_story.append(story_dict)
-      # json_response=serializers.serialize("json",all_story)
-      # json_response=json.dumps(all_story)
-    response=JsonResponse({"stories":all_story},safe=True)
-    response['Content-Type']='application/json'
-    response.status_code=200
-    response.status_phrase="OK"
-    return response
-    # json_response=serializers.serialize("json",{"stories":all_story})
-    # return HttpResponse(json.dumps({"stories":all_story}),content_type="application/json",status=200)
-  else:
-    return HttpResponse(Login_Required,content_type=text_content_type,status=403)
-
+  if cat=='*' and region=='*' and date=='*':
+    obj_set=Story.objects.all()
+  if cat!='*' and region=='*' and date=='*':
+    obj_set=Story.objects.filter(Story_Category=cat)
+  if cat!='*' and region!='*' and date=='*':
+    obj_set=Story.objects.filter(Story_Category=cat,Story_Region=region)
+  if cat!='*' and region!='*' and date!='*':
+    obj_set=Story.objects.filter(Story_Category=cat,Story_Region=region,Post_Date__gte=date)
+  if cat=='*' and region!='*' and date=='*':
+    obj_set=Story.objects.filter(Story_Region=region)
+  if cat=='*' and region!='*' and date!='*':
+    obj_set=Story.objects.filter(Story_Region=region,Post_Date__gte=date)
+  if cat!='*' and region=='*' and date!='*':
+    obj_set=Story.objects.filter(Story_Category=cat,Post_Date__gte=date)
+  if cat=='*' and region=='*' and date!='*':
+    obj_set=Story.objects.filter(Post_Date__gte=date)
+  print(obj_set)
+  # obj_set=Story.objects.all()
+  # if story_cat!='*':
+    # obj_set=obj_set.objects.filter(Story_Category=story_cat)
+  # if story_region!='*':
+    # obj_set=obj_set.objects.filter(Story_Region=story_region)
+  # if story_date!='*':
+    # obj_set=obj_set.objects.filter(Post_Date__gte=story_date)
+  if len(obj_set)==0:
+    NoStory="No Story Found"
+    return HttpResponseBadRequest(NoStory,text_content_type,status=404)
+  for obj in obj_set:
+    datelist=obj.Post_Date.isoformat().split('-')
+    date=datelist[2]+'/'+datelist[1]+'/'+datelist[0]
+    story_dict={"key":obj.id,"headline":obj.Story_Headline,
+                "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
+                "author":str(obj.Authors.Username),"story_date":str(obj.Post_Date)[:10],
+                "story_details":obj.Story_Details}
+    all_story.append(story_dict)
+    # json_response=serializers.serialize("json",all_story)
+    # json_response=json.dumps(all_story)
+  response=JsonResponse({"stories":all_story},safe=True)
+  response['Content-Type']='application/json'
+  response.status_code=200
+  response.status_phrase="OK"
+  return response
 
 @csrf_exempt
 def HandleDeleteStoryRequest(request):
+  if request.method!='POST':
+    badResponse = "{method} Not Allowed".format(method=request.method)
+    return HttpResponseBadRequest(badResponse,content_type="text/plain",status=405)
   Login_Required="Logging First"
   content_type="text/plain"
   if request.user.is_authenticated:
