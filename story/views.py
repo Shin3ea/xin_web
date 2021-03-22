@@ -155,7 +155,7 @@ def HandleGetStoriesRequest(request):
       user_json=serializers.serialize("json",obj.Authors.Username)
       story_dict={"key":obj.id,"headline":obj.Story_Headline,
                   "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
-                  "author":str(obj.Authors.Username),story_details":obj.Story_Details}
+                  "author":str(obj.Authors.Username),"story_details":obj.Story_Details}
       # story_dict.update(user_json)
       all_story.append(story_dict)
       # json_response=serializers.serialize("json",all_story)
