@@ -149,13 +149,13 @@ def HandleGetStoriesRequest(request):
     for obj in obj_set:
       datelist=obj.Post_Date.isoformat().split('-')
       date=datelist[2]+'/'+datelist[1]+'/'+datelist[0]
-      if datelist:
-        SomethingNone=("{username}").format(username=len(str(obj.Post_Date)))
+      # if datelist:
+      #   SomethingNone=("{username}").format(username=len(str(obj.Post_Date)))
       return HttpResponse(SomethingNone,content_type=text_content_type,status=403)
       # user_json=serializers.serialize("json",obj.Authors.Username)
       story_dict={"key":obj.id,"headline":obj.Story_Headline,
                   "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
-                  "author":str(obj.Authors.Username),"story_date":obj.Post_Date,
+                  "author":str(obj.Authors.Username),"story_date":str(obj.Post_Date)[:10],
                   "story_details":obj.Story_Details}
       # story_dict.update(user_json)
       all_story.append(story_dict)
