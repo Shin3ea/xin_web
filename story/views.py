@@ -146,7 +146,7 @@ def HandleGetStoriesRequest(request):
       NoStory="No Story Found"
       return HttpResponseBadRequest(NoStory,text_content_type,status=404)
     for obj in obj_set:
-      datelist=obj.date.isoformat().split('-')
+      datelist=obj.Post_Date.isoformat().split('-')
       date=datelist[2]+'/'+datelist[1]+'/'+datelist[0]
       story_dict={"key":obj.id,"headline":obj.Story_Headline,
                   "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
