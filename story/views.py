@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 import json
 from django.http import JsonResponse
 
+
 # @require_http_methods(["POST"])
 @csrf_exempt
 def HandleLoginRequest(request):
@@ -113,19 +114,19 @@ def HandleGetStoriesRequest(request):
     if cat=='*' and region=='*' and date=='*':
       obj_set=Story.objects.all()
     if cat!='*' and region=='*' and date=='*':
-      obj_set=Story.filter(Story_Category=cat)
+      obj_set=Story.objects.filter(Story_Category=cat)
     if cat!='*' and region!='*' and date=='*':
-      obj_set=Story.filter(Story_Category=cat,Story_Region=region)
+      obj_set=Story.objects.filter(Story_Category=cat,Story_Region=region)
     if cat!='*' and region!='*' and date!='*':
-      obj_set=Story.filter(Story_Category=cat,Story_Region=region,Post_Date__gte=date)
+      obj_set=Story.objects.filter(Story_Category=cat,Story_Region=region,Post_Date__gte=date)
     if cat=='*' and region!='*' and date=='*':
-      obj_set=Story.filter(Story_Region=region)
+      obj_set=Story.objects.filter(Story_Region=region)
     if cat=='*' and region!='*' and date!='*':
-      obj_set=Story.filter(Story_Region=region,Post_Date__gte=date)
+      obj_set=Story.objects.filter(Story_Region=region,Post_Date__gte=date)
     if cat!='*' and region=='*' and date!='*':
-      obj_set=Story.filter(Story_Category=cat,Post_Date__gte=date)
+      obj_set=Story.objects.filter(Story_Category=cat,Post_Date__gte=date)
     if cat=='*' and region=='*' and date!='*':
-      obj_set=Story.filter(Post_Date__gte=date)
+      obj_set=Story.objects.filter(Post_Date__gte=date)
     print(obj_set)
     # obj_set=Story.objects.all()
     # if story_cat!='*':
