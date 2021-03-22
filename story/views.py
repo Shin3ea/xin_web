@@ -153,12 +153,13 @@ def HandleGetStoriesRequest(request):
                   "story_cat":obj.Story_Category,"story_region":obj.Story_Region,
                   "author":obj.Authors.Username,"story_details":obj.Story_Details}
       all_story.append(story_dict)
-    # response=JsonResponse({"stories":all_story})
-    # response['Content-Type']='application/json'
-    # response.status_code=200
-    # response.status_phrase="OK"
+    response=JsonResponse({"stories":all_story})
+    response['Content-Type']='application/json'
+    response.status_code=200
+    response.status_phrase="OK"
+    return response
     # json_response=serializers.serialize("json",{"stories":all_story})
-    return HttpResponse(json.dumps({"stories":all_story}),content_type="application/json",status=200)
+    # return HttpResponse(json.dumps({"stories":all_story}),content_type="application/json",status=200)
   else:
     return HttpResponse(Login_Required,content_type=text_content_type,status=403)
 
